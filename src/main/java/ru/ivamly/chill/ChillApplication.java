@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class ChillApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(ChillApplication.class, args);
-	}
+    static void main() {
+        SpringApplication.run(ChillApplication.class);
+    }
 
 }
