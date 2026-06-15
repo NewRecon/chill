@@ -1,19 +1,9 @@
 package ru.ivamly.chill.it;
 
-import lombok.SneakyThrows;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.http.ProblemDetail;
-import org.springframework.test.web.servlet.ResultActions;
-import ru.ivamly.chill.dto.CreateChillRq;
-import ru.ivamly.chill.dto.CreateChillRs;
-import ru.ivamly.chill.entity.Chill;
-import ru.ivamly.chill.entity.enums.ChillType;
-import ru.ivamly.chill.repository.ChillRepository;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.within;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -22,10 +12,21 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.within;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ProblemDetail;
+import org.springframework.test.web.servlet.ResultActions;
+
+import lombok.SneakyThrows;
+import ru.ivamly.chill.constant.TestConstant;
+import ru.ivamly.chill.dto.CreateChillRq;
+import ru.ivamly.chill.dto.CreateChillRs;
+import ru.ivamly.chill.entity.Chill;
+import ru.ivamly.chill.entity.enums.ChillType;
+import ru.ivamly.chill.repository.ChillRepository;
 
 @DisplayName("Создание заявки на chill")
 class CreateChillTest extends BaseIntegrationTest {
@@ -35,31 +36,31 @@ class CreateChillTest extends BaseIntegrationTest {
 
     static Stream<Arguments> provideOverlappingChills() {
         Chill earlierSickChill = new Chill();
-        earlierSickChill.setUserId(UUID.randomUUID());
+        earlierSickChill.setUserId(UUID.fromString(TestConstant.ADMIN_ID));
         earlierSickChill.setType(ChillType.SICK);
         earlierSickChill.setStartDate(LocalDate.now().minusDays(10));
         earlierSickChill.setEndDate(LocalDate.now());
 
         Chill laterSickChill = new Chill();
-        laterSickChill.setUserId(UUID.randomUUID());
+        laterSickChill.setUserId(UUID.fromString(TestConstant.ADMIN_ID));
         laterSickChill.setType(ChillType.SICK);
         laterSickChill.setStartDate(LocalDate.now());
         laterSickChill.setEndDate(LocalDate.now().plusDays(10));
 
         Chill middleSickChill = new Chill();
-        middleSickChill.setUserId(UUID.randomUUID());
+        middleSickChill.setUserId(UUID.fromString(TestConstant.ADMIN_ID));
         middleSickChill.setType(ChillType.SICK);
         middleSickChill.setStartDate(LocalDate.now().minusDays(10));
         middleSickChill.setEndDate(LocalDate.now().plusDays(10));
 
         Chill sickChill = new Chill();
-        sickChill.setUserId(UUID.randomUUID());
+        sickChill.setUserId(UUID.fromString(TestConstant.ADMIN_ID));
         sickChill.setType(ChillType.SICK);
         sickChill.setStartDate(LocalDate.now());
         sickChill.setEndDate(LocalDate.now().plusDays(5));
 
         Chill dayOffChill = new Chill();
-        dayOffChill.setUserId(UUID.randomUUID());
+        dayOffChill.setUserId(UUID.fromString(TestConstant.ADMIN_ID));
         dayOffChill.setType(ChillType.OFF);
         dayOffChill.setStartDate(LocalDate.now());
         dayOffChill.setEndDate(LocalDate.now());
@@ -76,42 +77,42 @@ class CreateChillTest extends BaseIntegrationTest {
     static Stream<Arguments> provideInvalidRequests() {
         return Stream.of(
                 Arguments.of(new CreateChillRq(
-                        UUID.randomUUID(),
+                        UUID.fromString(TestConstant.ADMIN_ID),
                         ChillType.OFF,
                         null,
                         LocalDate.now(),
                         LocalDate.now().minusDays(1L)
                 )),
                 Arguments.of(new CreateChillRq(
-                        UUID.randomUUID(),
+                        UUID.fromString(TestConstant.ADMIN_ID),
                         ChillType.SICK,
                         null,
                         LocalDate.now(),
                         LocalDate.now().minusDays(1L)
                 )),
                 Arguments.of(new CreateChillRq(
-                        UUID.randomUUID(),
+                        UUID.fromString(TestConstant.ADMIN_ID),
                         ChillType.SICK,
                         null,
                         null,
                         LocalDate.now().plusDays(1L)
                 )),
                 Arguments.of(new CreateChillRq(
-                        UUID.randomUUID(),
+                        UUID.fromString(TestConstant.ADMIN_ID),
                         ChillType.SICK,
                         null,
                         LocalDate.now(),
                         null
                 )),
                 Arguments.of(new CreateChillRq(
-                        UUID.randomUUID(),
+                        UUID.fromString(TestConstant.ADMIN_ID),
                         ChillType.SICK,
                         "",
                         LocalDate.now(),
                         LocalDate.now().plusDays(1)
                 )),
                 Arguments.of(new CreateChillRq(
-                        UUID.randomUUID(),
+                        UUID.fromString(TestConstant.ADMIN_ID),
                         ChillType.SICK,
                         null,
                         LocalDate.now().minusDays(1),
@@ -123,17 +124,17 @@ class CreateChillTest extends BaseIntegrationTest {
     static Stream<Arguments> provideValidRequests() {
         return Stream.of(
                 Arguments.of(new CreateChillRq(
-                        UUID.randomUUID(),
+                        UUID.fromString(TestConstant.ADMIN_ID),
                         ChillType.OFF,
                         "some comment",
                         LocalDate.now(),
                         LocalDate.now().plusDays(1L)
                 )),
                 Arguments.of(new CreateChillRq(
-                        UUID.randomUUID(),
+                        UUID.fromString(TestConstant.ADMIN_ID),
                         ChillType.SICK,
                         "some comment",
-                        LocalDate.now(),
+                        LocalDate.now().plusDays(2L),
                         LocalDate.now().plusDays(5L)
                 ))
         );
@@ -146,7 +147,6 @@ class CreateChillTest extends BaseIntegrationTest {
     void shouldCreateChill(CreateChillRq request) {
         // when
         ResultActions resultAction = mockMvc.perform(post("/api/1/chills")
-                .contentType(MediaType.APPLICATION_JSON)
                 .content(getContent(request)));
 
         // then
@@ -191,7 +191,7 @@ class CreateChillTest extends BaseIntegrationTest {
 
         // when
         ResultActions resultAction = mockMvc.perform(post("/api/1/chills")
-                .contentType(MediaType.APPLICATION_JSON)
+
                 .content(getContent(request)));
 
         // then
@@ -222,7 +222,6 @@ class CreateChillTest extends BaseIntegrationTest {
     void shouldReturnBadRequest(CreateChillRq request) {
         // when
         ResultActions resultAction = mockMvc.perform(post("/api/1/chills")
-                .contentType(MediaType.APPLICATION_JSON)
                 .content(getContent(request)));
 
         // then
