@@ -2,11 +2,7 @@ package ru.ivamly.chill.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-
-import java.util.UUID;
-
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,9 +17,10 @@ import ru.ivamly.chill.dto.CreateChillRs;
 import ru.ivamly.chill.dto.GetChillRs;
 import ru.ivamly.chill.dto.UpdateChillRq;
 import ru.ivamly.chill.dto.UpdateChillRs;
-import ru.ivamly.chill.entity.User;
 import ru.ivamly.chill.mapper.ChillMapper;
 import ru.ivamly.chill.service.ChillService;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/chills")
@@ -35,12 +32,10 @@ public class ChillController { // TODO добавить сваггер
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CreateChillRs create(
-        @RequestBody @Valid CreateChillRq request, @AuthenticationPrincipal User user
-    ) {
+    public CreateChillRs create(@RequestBody @Valid CreateChillRq request) {
         return chillMapper.mapToCreateChillRs(
                 chillService.create(
-                        chillMapper.map(request, user.getId())
+                        chillMapper.map(request)
                 )
         );
     }
@@ -66,30 +61,5 @@ public class ChillController { // TODO добавить сваггер
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable UUID id) {
         chillService.delete(id);
-    }
-
-    @PutMapping("/")
-    public UpdateChillRs update(
-        @AuthenticationPrincipal User user, @RequestBody @Valid UpdateChillRq request
-    ) {
-        return chillMapper.mapToUpdateChillRs(
-                chillService.update(
-                        user.getId(),
-                        chillMapper.map(request, user.getId())
-                )
-        );
-    }
-
-    @GetMapping("/")
-    public GetChillRs get(@AuthenticationPrincipal User user) {
-        return chillMapper.mapToGetChillRs(
-                chillService.get(user.getId())
-        );
-    }
-
-    @DeleteMapping("/")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@AuthenticationPrincipal User user) {
-        chillService.delete(user.getId());
     }
 }

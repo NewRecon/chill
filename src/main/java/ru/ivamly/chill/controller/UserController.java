@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import ru.ivamly.chill.dto.GetChillsRs;
 import ru.ivamly.chill.dto.UpdateRoleRq;
@@ -27,7 +28,6 @@ public class UserController { // TODO добавить сваггер
     private final ChillMapper chillMapper;
     private final UserService userService;
 
-    @PreAuthorize("hasRole('MANAGER')")
     @GetMapping("/{id}/chills")
     public GetChillsRs get(@PathVariable UUID id) {
         return new GetChillsRs(
@@ -39,7 +39,7 @@ public class UserController { // TODO добавить сваггер
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/assignRole")
-    public ResponseEntity<Void> assignRole(@RequestBody UpdateRoleRq request) {
+    public ResponseEntity<Void> assignRole(@Valid @RequestBody UpdateRoleRq request) {
         userService.assignRole(request.userId(), request.role());
         
         return ResponseEntity.ok().build();
@@ -47,7 +47,7 @@ public class UserController { // TODO добавить сваггер
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/revokeRole")
-    public ResponseEntity<Void> revokeRole(@RequestBody UpdateRoleRq request) {
+    public ResponseEntity<Void> revokeRole(@Valid @RequestBody UpdateRoleRq request) {
         userService.revokeRole(request.userId(), request.role());
         
         return ResponseEntity.ok().build();

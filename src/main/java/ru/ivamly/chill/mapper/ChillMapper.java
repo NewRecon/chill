@@ -1,11 +1,7 @@
 package ru.ivamly.chill.mapper;
 
-import java.util.Collection;
-import java.util.UUID;
-
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-
 import ru.ivamly.chill.config.MapstructConfig;
 import ru.ivamly.chill.dto.ChillInfo;
 import ru.ivamly.chill.dto.CreateChillRq;
@@ -15,11 +11,13 @@ import ru.ivamly.chill.dto.UpdateChillRq;
 import ru.ivamly.chill.dto.UpdateChillRs;
 import ru.ivamly.chill.entity.Chill;
 
+import java.util.Collection;
+
 @Mapper(config = MapstructConfig.class)
 public interface ChillMapper {
 
     @Mapping(target = "id", ignore = true)
-    Chill map(CreateChillRq source, UUID userId);
+    Chill map(CreateChillRq source);
 
     ChillInfo map(Chill source);
 
@@ -27,9 +25,6 @@ public interface ChillMapper {
 
     @Mapping(target = "id", ignore = true)
     Chill map(UpdateChillRq source);
-
-    @Mapping(target = "id", ignore = true)
-    Chill map(UpdateChillRq source, UUID userId);
 
     CreateChillRs mapToCreateChillRs(Chill source);
 

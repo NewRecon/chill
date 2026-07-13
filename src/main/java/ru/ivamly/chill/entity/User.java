@@ -17,7 +17,7 @@ import ru.ivamly.chill.entity.enums.Role;
 @Getter
 @Setter
 @Entity
-@Table(name="users")
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

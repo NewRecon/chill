@@ -1,1 +1,0 @@
-INSERT INTO users (id,name,roles) VALUES ('497c0479-2212-47fc-94e2-278bc24213ff','admin',ARRAY['ROLE_ADMIN', 'ROLE_MANAGER']);

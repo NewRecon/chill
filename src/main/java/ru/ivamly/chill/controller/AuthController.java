@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import ru.ivamly.chill.dto.AuthRq;
 import ru.ivamly.chill.dto.AuthRs;
@@ -19,7 +20,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/login")
-    public AuthRs login (@RequestBody AuthRq request) {
+    public AuthRs login (@Valid @RequestBody AuthRq request) {
         return new AuthRs(
             authService.authenticate(request.username(), request.password())
         );

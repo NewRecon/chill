@@ -4,6 +4,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,7 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     public User create(User user) {
         if (userRepository.existsByName(user.getName())) {
             throw new UserExistException(user.getName());
@@ -29,22 +32,20 @@ public class UserService {
         return userRepository.findByName(name);
     }
 
-    public User getById(UUID id) throws EntityNotFoundException {
+    public User getById(UUID id) {
         return userRepository.findById(id)
             .orElseThrow(EntityNotFoundException::new);
     }
 
+    @Transactional
     public void assignRole(UUID id, Role role) {
         User user = getById(id);
         user.getRoles().add(role);
-
-        userRepository.save(user);
     }
 
+    @Transactional
     public void revokeRole(UUID id, Role role) {
         User user = getById(id);
         user.getRoles().remove(role);
-
-        userRepository.save(user);
     }
 }

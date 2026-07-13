@@ -17,7 +17,7 @@ import ru.ivamly.chill.security.JwtProvider;
 @RequiredArgsConstructor
 public class AuthService {
 
-    private final JwtProvider jwtService;
+    private final JwtProvider jwtProvider;
     private final AuthenticationManager authenticationManager;
     private final UserService userService;
 
@@ -44,6 +44,6 @@ public class AuthService {
                     return userService.create(newUser);
                 });
 
-        return jwtService.generateToken(user);
+        return jwtProvider.generateToken(user);
     }
 }

@@ -11,9 +11,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.test.web.servlet.ResultActions;
 
-import jakarta.servlet.http.HttpSession;
 import lombok.SneakyThrows;
 import ru.ivamly.chill.dto.AuthRq;
 import ru.ivamly.chill.dto.UpdateRoleRq;
@@ -36,7 +34,7 @@ public class SecurityTest extends BaseIntegrationTest {
         var testAuthority = getContent(new AuthRq("user", "user"));
 
         // when
-        ResultActions perform = mockMvc.perform(post("/api/1/auth/login")
+        var perform = mockMvc.perform(post("/api/1/auth/login")
                 .with(request -> {
                         request.removeHeader(HttpHeaders.AUTHORIZATION);
                         return request;
@@ -47,7 +45,7 @@ public class SecurityTest extends BaseIntegrationTest {
         // then
         perform.andExpect(status().is2xxSuccessful());
 
-        HttpSession session = perform.andReturn().getRequest().getSession(false);
+        var session = perform.andReturn().getRequest().getSession(false);
         assertNull(session); 
     }
 
@@ -66,7 +64,7 @@ public class SecurityTest extends BaseIntegrationTest {
         var token = jwtProvider.generateToken(user);
 
         // when
-        ResultActions perform = mockMvc.perform(post("/api/1/users/assignRole")
+        var perform = mockMvc.perform(post("/api/1/users/assignRole")
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
                 .content(testAuthority));
 
@@ -83,7 +81,7 @@ public class SecurityTest extends BaseIntegrationTest {
         var testAuthority = getContent(Role.ROLE_MANAGER);
 
         // when
-        ResultActions perform = mockMvc.perform(post("/api/1/users/assignRole")
+        var perform = mockMvc.perform(post("/api/1/users/assignRole")
                 .with(request -> {
                         request.removeHeader(HttpHeaders.AUTHORIZATION);
                         return request;
@@ -104,7 +102,7 @@ public class SecurityTest extends BaseIntegrationTest {
         var testAuthority = getContent(new AuthRq("user", "uncorrect_password"));
 
         // when
-        ResultActions perform = mockMvc.perform(post("/api/1/auth/login")
+        var perform = mockMvc.perform(post("/api/1/auth/login")
                 .with(request -> {
                         request.removeHeader(HttpHeaders.AUTHORIZATION);
                         return request;

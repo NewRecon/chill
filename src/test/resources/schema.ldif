@@ -8,14 +8,6 @@ objectClass: top
 objectClass: organizationalUnit
 ou: people
 
-dn: cn=admin,ou=people,dc=mycompany,dc=local
-objectclass: top
-objectclass: person
-objectclass: organizationalPerson
-cn: admin
-sn: adminson
-userPassword: admin
-
 dn: cn=user,ou=people,dc=mycompany,dc=local
 objectClass: top
 objectClass: person

@@ -1,17 +1,6 @@
 package ru.ivamly.chill.it;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.within;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
-import java.util.Map;
-import java.util.UUID;
-import java.util.stream.Stream;
-
+import lombok.SneakyThrows;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -20,13 +9,23 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ProblemDetail;
 import org.springframework.test.web.servlet.ResultActions;
-
-import lombok.SneakyThrows;
 import ru.ivamly.chill.dto.UpdateChillRq;
 import ru.ivamly.chill.dto.UpdateChillRs;
 import ru.ivamly.chill.entity.Chill;
 import ru.ivamly.chill.entity.enums.ChillType;
 import ru.ivamly.chill.repository.ChillRepository;
+
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.Map;
+import java.util.UUID;
+import java.util.stream.Stream;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.within;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @DisplayName("Обновить chill")
 public class UpdateChillTest extends BaseIntegrationTest {

@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public record UpdateChillRq(
         @NotNull
-        UUID userId,
+        UUID userId, // TODO это поле будет браться из LDAP?
         @NotNull
         ChillType type,
         String comment,
