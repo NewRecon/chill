@@ -1,6 +1,8 @@
 package ru.ivamly.chill.it;
 
 import lombok.SneakyThrows;
+import ru.ivamly.chill.config.MockMvcConfig;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
@@ -8,7 +10,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import tools.jackson.databind.json.JsonMapper;
 
-@SpringBootTest
+@SpringBootTest(classes = MockMvcConfig.class)
 @AutoConfigureMockMvc
 abstract class BaseIntegrationTest { // TODO добавить конфигурацию api versioning
 

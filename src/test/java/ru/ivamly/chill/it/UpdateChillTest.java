@@ -7,7 +7,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.http.ProblemDetail;
 import org.springframework.test.web.servlet.ResultActions;
 import ru.ivamly.chill.dto.UpdateChillRq;
@@ -103,7 +102,6 @@ public class UpdateChillTest extends BaseIntegrationTest {
 
         // when
         ResultActions resultAction = mockMvc.perform(put("/api/1/chills/{id}", savedChill.getId())
-                .contentType(MediaType.APPLICATION_JSON)
                 .content(getContent(request)));
 
         // then
@@ -160,7 +158,6 @@ public class UpdateChillTest extends BaseIntegrationTest {
 
         // when
         ResultActions resultAction = mockMvc.perform(put("/api/1/chills/{id}", savedChillToUpdate.getId())
-                .contentType(MediaType.APPLICATION_JSON)
                 .content(getContent(request)));
 
         // then
@@ -199,7 +196,6 @@ public class UpdateChillTest extends BaseIntegrationTest {
 
         // when
         ResultActions resultAction = mockMvc.perform(put("/api/1/chills/{id}", UUID.randomUUID())
-                .contentType(MediaType.APPLICATION_JSON)
                 .content(getContent(request)));
 
         // then
@@ -216,7 +212,6 @@ public class UpdateChillTest extends BaseIntegrationTest {
     void shouldReturnBadRequest(UpdateChillRq request) {
         // when
         ResultActions resultAction = mockMvc.perform(put("/api/1/chills/{id}", UUID.randomUUID())
-                .contentType(MediaType.APPLICATION_JSON)
                 .content(getContent(request)));
 
         // then
@@ -250,7 +245,6 @@ public class UpdateChillTest extends BaseIntegrationTest {
 
         // when
         ResultActions resultAction = mockMvc.perform(put("/api/1/chills/{id}", existingChill.getId())
-                .contentType(MediaType.APPLICATION_JSON)
                 .content(getContent(request)));
 
         // then

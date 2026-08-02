@@ -1,0 +1,12 @@
+spring:
+  ldap:
+    base: dc=mycompany,dc=local
+    embedded:
+      base-dn: dc=mycompany,dc=local
+
+ldap:
+  userDnPattern: cn={0},ou=people
+
+jwt:
+  key: my-super-secret-test-key-for-jwt
+  expiration: 9999999

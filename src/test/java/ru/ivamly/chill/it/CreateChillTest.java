@@ -6,7 +6,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.http.ProblemDetail;
 import org.springframework.test.web.servlet.ResultActions;
 import ru.ivamly.chill.dto.CreateChillRq;
@@ -146,7 +145,6 @@ class CreateChillTest extends BaseIntegrationTest {
     void shouldCreateChill(CreateChillRq request) {
         // when
         ResultActions resultAction = mockMvc.perform(post("/api/1/chills")
-                .contentType(MediaType.APPLICATION_JSON)
                 .content(getContent(request)));
 
         // then
@@ -191,7 +189,6 @@ class CreateChillTest extends BaseIntegrationTest {
 
         // when
         ResultActions resultAction = mockMvc.perform(post("/api/1/chills")
-                .contentType(MediaType.APPLICATION_JSON)
                 .content(getContent(request)));
 
         // then
@@ -222,7 +219,6 @@ class CreateChillTest extends BaseIntegrationTest {
     void shouldReturnBadRequest(CreateChillRq request) {
         // when
         ResultActions resultAction = mockMvc.perform(post("/api/1/chills")
-                .contentType(MediaType.APPLICATION_JSON)
                 .content(getContent(request)));
 
         // then

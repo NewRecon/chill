@@ -4,6 +4,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 .env
+*.http
 
 ### STS ###
 .apt_generated

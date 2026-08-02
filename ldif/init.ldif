@@ -1,0 +1,24 @@
+dn: ou=people,{{ LDAP_BASE_DN }}
+changetype: add
+objectClass: top
+objectClass: organizationalUnit
+ou: people
+
+dn: cn=test,ou=people,{{ LDAP_BASE_DN }}
+changetype: add
+objectClass: top
+objectClass: person
+cn: test
+sn: Surname
+userPassword: test
+
+dn: uid=test,ou=people,{{ LDAP_BASE_DN }}
+changetype: add
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+cn: Name Surname
+sn: Surname
+uid: test
+userPassword: test

@@ -1,3 +1,13 @@
 spring:
   application:
     name: chill
+  ldap:
+    urls: ${LDAP_URL}
+    base: ${LDAP_BASE_DN}
+
+ldap:
+  userDnPattern: ${LDAP_USER_DN_PATTERN}
+
+jwt:
+  key: ${JWT_KEY}
+  expiration: ${JWT_EXPIRATION}
